@@ -1,5 +1,12 @@
 *.class
 
+# Gradle Stuff #
+.gradle
+
+# IntelliJ IDEA Files #
+.idea
+*.iml
+
 # Package Files #
 *.jar
 *.war
