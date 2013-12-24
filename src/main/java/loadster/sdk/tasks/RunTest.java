@@ -90,7 +90,7 @@ public class RunTest implements Runnable {
             System.err.println("API host not set! Use -Dloadster.api.host=10.0.0.1");
             System.exit(1);
         } else if (args.length < 2) {
-            System.err.println("Usage: " + RunTest.class.getName() + " /projects/1/scenario/1 report.html");
+            System.err.println("Usage: " + RunTest.class.getName() + " /projects/00001/scenarios/00001 report.html");
             System.exit(1);
         }
 
