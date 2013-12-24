@@ -4,10 +4,12 @@ buildscript {
     }
 
     dependencies {
+        classpath "eu.appsatori:gradle-fatjar-plugin:0.2-rc1"
     }
 }
 
 apply plugin: "java"
+apply plugin: "fatjar"
 
 version "1.0"
 
@@ -22,4 +24,16 @@ dependencies {
     compile "commons-lang:commons-lang:2.6"
     compile "commons-io:commons-io:2.4"
     compile "org.apache.httpcomponents:httpclient:4.2.6", "org.apache.httpcomponents:httpcore:4.2.5", "org.apache.httpcomponents:httpmime:4.2.6"
+}
+
+jar {
+    archiveName "loadster-sdk-${version}.jar"
+}
+
+fatJar {
+    archiveName "loadster-sdk-${version}-all.jar"
+}
+
+task release(dependsOn: ["jar", "fatJar"]) << {
+    println "Released version ${version}."
 }
