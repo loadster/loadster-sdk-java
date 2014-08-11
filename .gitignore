@@ -1,3 +1,5 @@
+build
+out
 *.class
 
 # Gradle Stuff #
@@ -8,6 +10,5 @@
 *.iml
 
 # Package Files #
-*.jar
 *.war
 *.ear
