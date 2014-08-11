@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!--
+  Sample Ant script to run a test by connecting to a remote Loadster Workbench 
+  through the API. This makes it easier to run automated load tests as part
+  of your build or continuous integration process.
+
+  For this to work, the API has to be running and reachable on the network,
+  and you need the correct API key. The scenario path can be obtained by
+  right-clicking the scenario in Loadster Workbench.
+  -->
+<project name="LoadsterAntSamples" basedir="..">
+    <!-- Defines the task. The SDK jar must be built and present in the classpath. -->
+    <taskdef name="loadster-run-test" classname="loadster.sdk.tasks.ant.RunTestAntTask" classpath="build/libs/loadster-sdk-1.0-all.jar"/>
+
+    <!-- Runs a Loadster test and emails the report. -->
+    <target name="run-test">
+        <loadster-run-test apihost="localhost" apiport="1999" apikey="changeme" scenariopath="/projects/00001/scenarios/00001" tofile="report.html"/>
+        <mail from="ci@loadsterperformance.com" tolist="andy@loadsterperformance.com" subject="Automated load test report">
+            <message>The automated load test has completed</message>
+            <attachments>
+                <fileset dir="." includes="report.html"/>
+            </attachments>
+        </mail>
+    </target>
+</project>
