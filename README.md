@@ -9,7 +9,7 @@ While the API itself has RESTful semantics, this SDK is more about giving you wh
 
 Package Structure
 -----------------
-[loadster.sdk.tasks](src/main/java/loadster/sdk/tasks) - Tasks that can be invoked from the command line, wrapped in a Maven mojo or Jenkins plugin, etc. For example, to kick off a load test remotely, check out [RunTest](src/main/java/loadster/sdk/tasks/RunTest).
+[loadster.sdk.tasks](src/main/java/loadster/sdk/tasks) - Tasks that can be invoked from the command line, wrapped in a Maven mojo or Jenkins plugin, etc. For example, to kick off a load test remotely, check out [RunTest](src/main/java/loadster/sdk/tasks/RunTest.java).
 
 [loadster.sdk.client](src/main/java/loadster/sdk/client) - Easy access to important API functions. Have a look at [WorkbenchApiClient](src/main/java/loadster/sdk/client/WorkbenchApiClient.java) as a starting point.
 
