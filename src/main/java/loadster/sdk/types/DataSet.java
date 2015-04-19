@@ -1,24 +1,18 @@
 package loadster.sdk.types;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * A reference to an API resource.
+ * A Loadster data set (used for populating canned data in script variables).
  */
-public class Reference {
+public class DataSet {
     private String id;
     private String name;
-    private String href;
     private Date createdDate;
     private Date modifiedDate;
-
-    public Reference() {
-    }
-
-    public Reference(String id, String href) {
-        this.id = id;
-        this.href = href;
-    }
+    private List<String[]> data = new ArrayList<String[]>();
 
     public String getId() {
         return id;
@@ -26,14 +20,6 @@ public class Reference {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public void setHref(String href) {
-        this.href = href;
     }
 
     public String getName() {
@@ -58,5 +44,13 @@ public class Reference {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public List<String[]> getData() {
+        return data;
+    }
+
+    public void setData(List<String[]> data) {
+        this.data = data;
     }
 }

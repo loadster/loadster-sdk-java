@@ -1,24 +1,19 @@
 package loadster.sdk.types;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * A reference to an API resource.
+ * A Loadster test scenario.
  */
-public class Reference {
+public class Scenario {
     private String id;
     private String name;
-    private String href;
     private Date createdDate;
     private Date modifiedDate;
-
-    public Reference() {
-    }
-
-    public Reference(String id, String href) {
-        this.id = id;
-        this.href = href;
-    }
+    private List<Population> populations = new ArrayList<Population>();
+    private List<Reference> tests = new ArrayList<Reference>();
 
     public String getId() {
         return id;
@@ -26,14 +21,6 @@ public class Reference {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public void setHref(String href) {
-        this.href = href;
     }
 
     public String getName() {
@@ -58,5 +45,21 @@ public class Reference {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public List<Population> getPopulations() {
+        return populations;
+    }
+
+    public void setPopulations(List<Population> populations) {
+        this.populations = populations;
+    }
+
+    public List<Reference> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<Reference> tests) {
+        this.tests = tests;
     }
 }
