@@ -54,7 +54,7 @@ public class WorkbenchApiClient {
      * Gets up-to-date status on a test.
      */
     public TestStatus getTestStatus(Reference test) throws ApiException, IOException, ProtocolException {
-        HttpGet request = new HttpGet(baseUrl + test.getHref() + "/status?apiKey=" + apiKey);
+        HttpGet request = new HttpGet(test.getHref() + "/status?apiKey=" + apiKey);
         HttpResponse response = httpClient.execute(request);
         Reader reader = new InputStreamReader(response.getEntity().getContent(), "UTF-8");
         int status = response.getStatusLine().getStatusCode();
@@ -70,7 +70,7 @@ public class WorkbenchApiClient {
      * Fetches an HTML test report for a test. The test has to be finished or this will fail.
      */
     public InputStream getTestReport(Reference test) throws ApiException, IOException, ProtocolException {
-        HttpGet request = new HttpGet(baseUrl + test.getHref() + "/report?apiKey=" + apiKey);
+        HttpGet request = new HttpGet(test.getHref() + "/report?apiKey=" + apiKey);
         HttpResponse response = httpClient.execute(request);
         int status = response.getStatusLine().getStatusCode();
 
