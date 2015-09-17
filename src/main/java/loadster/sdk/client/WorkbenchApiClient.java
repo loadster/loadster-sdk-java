@@ -1,7 +1,6 @@
 package loadster.sdk.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import loadster.sdk.types.ErrorDetail;
 import loadster.sdk.types.Reference;
 import loadster.sdk.types.TestStatus;
@@ -16,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Type;
+import java.util.Date;
 
 /**
  * Simplified client interface for the Workbench API.
@@ -25,7 +26,11 @@ public class WorkbenchApiClient {
     private String apiKey;
 
     private DefaultHttpClient httpClient = new DefaultHttpClient();
-    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'kk:mm:ss.S'Z'").create();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'kk:mm:ss.S'Z'").registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return new Date(json.getAsJsonPrimitive().getAsLong()); 
+        } 
+    }).create();
 
     public WorkbenchApiClient(String host, int port, String apiKey) {
         this.baseUrl = "http://" + host + ":" + port;
