@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Simple task to kick off a test via the Loadster Workbench web service, monitor it while it runs, and automatically
@@ -40,7 +41,7 @@ public class RunTest implements Runnable {
 
             log.info("Attempting to fetch the test report...");
 
-            IOUtils.copy(client.getTestReport(ref), new FileOutputStream(testReportOutputFile));
+            IOUtils.copy(waitForTestReport(ref), new FileOutputStream(testReportOutputFile));
 
             log.info("Saved test report to " + testReportOutputFile);
         } catch (Exception e) {
@@ -76,6 +77,20 @@ public class RunTest implements Runnable {
         }
 
         log.info("Test is finished!");
+    }
+
+    private InputStream waitForTestReport(Reference ref) throws ApiException {
+        for (int i = 0; i < 60; i++) {
+            try {
+                Thread.sleep(3000);
+
+                return client.getTestReport(ref);
+            } catch (Exception e) {
+                log.info("Waiting for the test report to become available...");
+            }
+        }
+
+        throw new ApiException("Failed to load the test report!");
     }
 
     public static void main(String[] args) {
