@@ -1,22 +1,23 @@
 package loadster.sdk.client;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import loadster.sdk.exceptions.ApiException;
 import loadster.sdk.types.ErrorDetail;
 import loadster.sdk.types.Reference;
 import loadster.sdk.types.TestStatus;
-import loadster.sdk.exceptions.ApiException;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Type;
-import java.util.Date;
 
 /**
  * Simplified client interface for the Workbench API.
@@ -26,11 +27,7 @@ public class WorkbenchApiClient {
     private String apiKey;
 
     private DefaultHttpClient httpClient = new DefaultHttpClient();
-    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'kk:mm:ss.S'Z'").registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return new Date(json.getAsJsonPrimitive().getAsLong()); 
-        } 
-    }).create();
+    private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").create();
 
     public WorkbenchApiClient(String host, int port, String apiKey) {
         this.baseUrl = "http://" + host + ":" + port;
@@ -49,8 +46,12 @@ public class WorkbenchApiClient {
         if (status == 201) {
             return gson.fromJson(reader, Reference.class);
         } else if (status == 403) {
+            EntityUtils.consumeQuietly(response.getEntity());
+
             throw new ApiException(gson.fromJson(reader, ErrorDetail.class));
         } else {
+            EntityUtils.consumeQuietly(response.getEntity());
+
             throw new ApiException(response.getStatusLine().toString());
         }
     }
@@ -67,6 +68,8 @@ public class WorkbenchApiClient {
         if (status == 200) {
             return gson.fromJson(reader, TestStatus.class);
         } else {
+            EntityUtils.consumeQuietly(response.getEntity());
+
             throw new ApiException(response.getStatusLine().toString());
         }
     }
@@ -82,6 +85,8 @@ public class WorkbenchApiClient {
         if (status == 200) {
             return response.getEntity().getContent();
         } else {
+            EntityUtils.consumeQuietly(response.getEntity());
+
             throw new ApiException(response.getStatusLine().toString());
         }
     }
