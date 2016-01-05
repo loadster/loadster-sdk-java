@@ -3,6 +3,8 @@ loadster-sdk-java
 
 This is the Java SDK for the Loadster Workbench API. As a desktop application, Loadster Workbench might not be the most obvious candidate to provide a REST API but we've had customer requests for better remote and programmatic access to certain features so this is where to start!
 
+To learn about how to use the SDK with Loadster Workbench, see [The Loadster Workbench API](http://www.loadsterperformance.com/documentation/api/).
+
 Philosophy
 ----------
 While the API itself has RESTful semantics, this SDK is more about giving you what it takes to get things done fast. The SDK will end up feeling a lot more procedural than resource-based.
