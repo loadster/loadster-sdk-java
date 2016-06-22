@@ -5,8 +5,8 @@ import com.google.gson.GsonBuilder;
 import loadster.sdk.exceptions.ApiException;
 import loadster.sdk.types.ErrorDetail;
 import loadster.sdk.types.Reference;
+import loadster.sdk.types.TestStatistics;
 import loadster.sdk.types.TestStatus;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -84,6 +84,26 @@ public class WorkbenchApiClient {
 
         if (status == 200) {
             return response.getEntity().getContent();
+        } else {
+            EntityUtils.consumeQuietly(response.getEntity());
+
+            throw new ApiException(response.getStatusLine().toString());
+        }
+    }
+
+    /**
+     * Fetches statistics for a test. The test has to be finished or this will fail.
+     */
+    public TestStatistics getTestStatistics(Reference test) throws ApiException, IOException, ProtocolException {
+        HttpGet request = new HttpGet(test.getHref() + "/report?apiKey=" + apiKey);
+
+        request.setHeader("Accept", "application/json");
+
+        HttpResponse response = httpClient.execute(request);
+        int status = response.getStatusLine().getStatusCode();
+
+        if (status == 200) {
+            return gson.fromJson(new InputStreamReader(response.getEntity().getContent()), TestStatistics.class);
         } else {
             EntityUtils.consumeQuietly(response.getEntity());
 
