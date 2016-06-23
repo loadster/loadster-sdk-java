@@ -4,13 +4,11 @@ import feign.*;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import loadster.sdk.exceptions.ApiException;
-import loadster.sdk.types.Scenario;
-import loadster.sdk.types.Test;
-import loadster.sdk.types.TestStatistics;
-import loadster.sdk.types.TestStatus;
+import loadster.sdk.types.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Simplified client interface for the Workbench API.
@@ -28,16 +26,52 @@ public class WorkbenchApiClient {
     }
 
     /**
+     * Lists all projects.
+     */
+    public List<Reference> listProjects() throws ApiException, IOException {
+        return jsonApi.listProjects();
+    }
+
+    /**
+     * Gets details on a project.
+     */
+    public Project getProject(String id) throws ApiException, IOException {
+        return jsonApi.getProject(id);
+    }
+
+    /**
+     * Gets details on a scenario.
+     */
+    public Scenario getScenario(String projectId, String scenarioId) throws ApiException, IOException {
+        return jsonApi.getScenario(projectId, scenarioId);
+    }
+
+    /**
+     * Gets details on a script.
+     */
+    public Script getScript(String projectId, String scriptId) throws ApiException, IOException {
+        return jsonApi.getScript(projectId, scriptId);
+    }
+
+    /**
+     * Gets details on a data set.
+     */
+    public DataSet getDataSet(String projectId, String dataSetId) throws ApiException, IOException {
+        return jsonApi.getDataSet(projectId, dataSetId);
+    }
+
+    /**
+     * Gets details on a test.
+     */
+    public Test getTest(String projectId, String scenarioId, String testId) throws ApiException, IOException {
+        return jsonApi.getTest(projectId, scenarioId, testId);
+    }
+
+    /**
      * Attempts to start a test for a scenario.
      */
     public Test startTest(Scenario scenario) throws ApiException, IOException {
-        Test test = jsonApi.startTest(scenario.getProjectId(), scenario.getId());
-
-        // TODO - the API should be including these fields in the response
-        test.setProjectId(scenario.getProjectId());
-        test.setScenarioId(scenario.getId());
-
-        return test;
+        return jsonApi.startTest(scenario.getProjectId(), scenario.getId());
     }
 
     /**
@@ -62,6 +96,30 @@ public class WorkbenchApiClient {
     }
 
     private interface WorkbenchApi {
+        @RequestLine("GET /projects")
+        @Headers("Accept: application/json")
+        List<Reference> listProjects();
+
+        @RequestLine("GET /projects/{projectId}")
+        @Headers("Accept: application/json")
+        Project getProject(@Param("projectId") String projectId);
+
+        @RequestLine("GET /projects/{projectId}/scenarios/{scenarioId}")
+        @Headers("Accept: application/json")
+        Scenario getScenario(@Param("projectId") String projectId, @Param("scenarioId") String scenarioId);
+
+        @RequestLine("GET /projects/{projectId}/scripts/{scriptId}")
+        @Headers("Accept: application/json")
+        Script getScript(@Param("projectId") String projectId, @Param("scriptId") String scriptId);
+
+        @RequestLine("GET /projects/{projectId}/datasets/{dataSetId}")
+        @Headers("Accept: application/json")
+        DataSet getDataSet(@Param("projectId") String projectId, @Param("dataSetId") String dataSetId);
+
+        @RequestLine("GET /projects/{projectId}/scenarios/{scenarioId}/tests/{testId}")
+        @Headers("Accept: application/json")
+        Test getTest(@Param("projectId") String projectId, @Param("scenarioId") String scenarioId, @Param("testId") String testId);
+
         @RequestLine("POST /projects/{projectId}/scenarios/{scenarioId}/tests")
         @Headers("Accept: application/json")
         Test startTest(@Param("projectId") String projectId, @Param("scenarioId") String scenarioId);
