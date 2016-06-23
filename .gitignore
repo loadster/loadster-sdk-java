@@ -4,6 +4,7 @@ out
 
 # Gradle Stuff #
 .gradle
+gradle.properties
 
 # IntelliJ IDEA Files #
 .idea
