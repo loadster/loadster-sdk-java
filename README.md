@@ -5,6 +5,12 @@ This is the Java SDK for the Loadster Workbench API. As a desktop application, L
 
 To learn about how to use the SDK with Loadster Workbench, see [The Loadster Workbench API](http://www.loadsterperformance.com/documentation/api/).
 
+Usage
+-----
+The SDK is available via the repository at [https://bintray.com/loadster/loadster/loadster-sdk-java/](https://bintray.com/loadster/loadster/loadster-sdk-java/). Follow the instructions there to include it in your Gradle, Maven, or SBT build.
+
+You can also download pre-built jars from [releases](https://github.com/loadster/loadster-sdk-java/releases).
+
 Philosophy
 ----------
 While the API itself has RESTful semantics, this SDK is more about giving you what it takes to get things done fast. The SDK will end up feeling a lot more procedural than resource-based.
