@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class DataSet {
     private String id;
+    private String projectId;
     private String name;
     private Date createdDate;
     private Date modifiedDate;
@@ -20,6 +21,14 @@ public class DataSet {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public String getName() {
