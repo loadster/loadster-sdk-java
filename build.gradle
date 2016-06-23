@@ -19,12 +19,8 @@ repositories {
 
 dependencies {
     compile "org.apache.ant:ant:1.9.4"
-    compile "junit:junit:4.11"
-    compile "log4j:log4j:1.2.17"
-    compile "com.google.code.gson:gson:2.2.4"
-    compile "commons-lang:commons-lang:2.6"
-    compile "commons-io:commons-io:2.4"
-    compile "org.apache.httpcomponents:httpclient:4.2.6", "org.apache.httpcomponents:httpcore:4.2.5", "org.apache.httpcomponents:httpmime:4.2.6"
+    compile "com.netflix.feign:feign-core:8.17.0"
+    compile "com.netflix.feign:feign-jackson:8.17.0"
 }
 
 jar {
