@@ -9,11 +9,20 @@ import java.util.List;
  */
 public class Scenario {
     private String id;
+    private String projectId;
     private String name;
     private Date createdDate;
     private Date modifiedDate;
     private List<Population> populations = new ArrayList<Population>();
     private List<Reference> tests = new ArrayList<Reference>();
+
+    public Scenario() {
+    }
+
+    public Scenario(String projectId, String scenarioId) {
+        this.projectId = projectId;
+        this.id = scenarioId;
+    }
 
     public String getId() {
         return id;
@@ -21,6 +30,14 @@ public class Scenario {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public String getName() {
