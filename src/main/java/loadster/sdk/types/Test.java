@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Test {
     private String id;
+    private String projectId;
+    private String scenarioId;
     private String name;
     private Date createdDate;
     private Date modifiedDate;
@@ -23,6 +25,22 @@ public class Test {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getScenarioId() {
+        return scenarioId;
+    }
+
+    public void setScenarioId(String scenarioId) {
+        this.scenarioId = scenarioId;
     }
 
     public String getName() {
