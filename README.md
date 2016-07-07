@@ -11,6 +11,8 @@ The SDK is available via the repository at [https://bintray.com/loadster/loadste
 
 You can also download pre-built jars from [releases](https://github.com/loadster/loadster-sdk-java/releases).
 
+Use the SDK library with your own code to build integrations, or by itself if you want to kick off a test from the command line (see below).
+
 Philosophy
 ----------
 While the API itself has RESTful semantics, this SDK is more about giving you what it takes to get things done fast. The SDK will end up feeling a lot more procedural than resource-based.
@@ -24,6 +26,19 @@ Package Structure
 [loadster.sdk.types](src/main/java/loadster/sdk/types) - Dumb little POJOs that map very closely to the JSON responses coming back from the API. If the SDK does its job, you'll be dealing with these objects instead of the JSON itself.
 
 [loadster.sdk.exceptions](src/main/java/loadster/sdk/exceptions) - When something goes wrong in the API, we try to map it to an exception so you don't have to worry about HTTP 2xx/3xx/4xx/5xx error codes and all that.
+
+Running a Test
+--------------
+
+If you have Loadster Workbench running, you can trigger a test remotely via the SDK. This is helpful if you want to integrate load testing into your CD pipeline or run tests on a schedule.
+
+```
+$ java -cp loadster-sdk-1.4-all.jar -Dloadster.api.key=changeme -Dloadster.api.host=localhost loadster.sdk.tasks.RunTest <project-id> <scenario-id> report.html
+```
+
+The ```<project-id>``` and ```<scenario-id>``` can be obtained by right clicking your test scenario in Loadster Workbench and selecting "Info...". The values will be in a path like ```/projects/<project-id>/scenarios/<scenario-id>```.
+
+You can obtain and set your Loadster Workbench API key in Preferences.
 
 Licensing
 ---------
