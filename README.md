@@ -45,7 +45,7 @@ Compatibility
 
 | Loadster Workbench Version | Recommended SDK Version |
 | -------------------------- | ----------------------- |
-| 3.9.6+                     | 1.4                     |
+| 3.9.6+                     | 1.5                     |
 | 3.6.0-3.9.5                | 1.2                     |
 | 3.2.0-3.5.6                | 1.0                     |
 
