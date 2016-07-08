@@ -89,8 +89,15 @@ public class WorkbenchApiClient {
     /**
      * Fetches an HTML test report for a test. The test has to be finished or this will fail.
      */
-    public InputStream getTestReport(Test test) throws ApiException, IOException {
-        return jsonApi.getTestReport(test.getProjectId(), test.getScenarioId(), test.getId()).body().asInputStream();
+    public InputStream getHtmlTestReport(Test test) throws ApiException, IOException {
+        return jsonApi.getHtmlTestReport(test.getProjectId(), test.getScenarioId(), test.getId()).body().asInputStream();
+    }
+
+    /**
+     * Fetches a JSON test report for a test. The test has to be finished or this will fail.
+     */
+    public InputStream getJsonTestReport(Test test) throws ApiException, IOException {
+        return jsonApi.getJsonTestReport(test.getProjectId(), test.getScenarioId(), test.getId()).body().asInputStream();
     }
 
     /**
@@ -139,6 +146,10 @@ public class WorkbenchApiClient {
 
         @RequestLine("GET /projects/{projectId}/scenarios/{scenarioId}/tests/{testId}/report")
         @Headers("Accept: text/html")
-        Response getTestReport(@Param("projectId") String projectId, @Param("scenarioId") String scenarioId, @Param("testId") String testId);
+        Response getHtmlTestReport(@Param("projectId") String projectId, @Param("scenarioId") String scenarioId, @Param("testId") String testId);
+
+        @RequestLine("GET /projects/{projectId}/scenarios/{scenarioId}/tests/{testId}/report")
+        @Headers("Accept: application/json")
+        Response getJsonTestReport(@Param("projectId") String projectId, @Param("scenarioId") String scenarioId, @Param("testId") String testId);
     }
 }

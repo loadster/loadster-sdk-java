@@ -15,7 +15,8 @@ public class RunTestAntTask extends Task {
     private String apiKey = null;
     private String projectId;
     private String scenarioId = null;
-    private File toFile = null;
+    private File htmlOutput = null;
+    private File jsonOutput = null;
 
     /**
      * The main execute method. If all the right attributes are set, this runs the test.
@@ -33,13 +34,13 @@ public class RunTestAntTask extends Task {
             throw new BuildException("Parameter 'scenarioId' is required!");
         }
 
-        if (toFile == null) {
-            throw new BuildException("Parameter 'toFile' is required! This is the destination where the test report should be saved.");
+        if (htmlOutput == null) {
+            throw new BuildException("Parameter 'htmlOutput' is required! This is the destination where the HTML test report should be saved.");
         }
 
         System.out.println("Preparing to run scenario " + scenarioId + " of project " + projectId + " on " + apiHost + " port " + apiPort + "...");
 
-        new RunTest(apiHost, apiPort, apiKey, projectId, scenarioId, toFile.getAbsolutePath()).run();
+        new RunTest(apiHost, apiPort, apiKey, projectId, scenarioId, htmlOutput.getAbsolutePath(), jsonOutput != null ? jsonOutput.getAbsolutePath() : null).run();
     }
 
     public String getApiHost() {
@@ -82,11 +83,19 @@ public class RunTestAntTask extends Task {
         this.scenarioId = scenarioId;
     }
 
-    public File getToFile() {
-        return toFile;
+    public File getHtmlOutput() {
+        return htmlOutput;
     }
 
-    public void setToFile(File toFile) {
-        this.toFile = toFile;
+    public void setHtmlOutput(File htmlOutput) {
+        this.htmlOutput = htmlOutput;
+    }
+
+    public File getJsonOutput() {
+        return jsonOutput;
+    }
+
+    public void setJsonOutput(File jsonOutput) {
+        this.jsonOutput = jsonOutput;
     }
 }

@@ -20,12 +20,14 @@ public class RunTest implements Runnable {
     private String projectId;
     private String scenarioId;
     private String testReportOutputFile;
+    private String testJsonOutputFile;
 
-    public RunTest(String apiHost, int apiPort, String apiKey, String projectId, String scenarioId, String testReportOutputFile) {
+    public RunTest(String apiHost, int apiPort, String apiKey, String projectId, String scenarioId, String testReportOutputFile, String testJsonOutputFile) {
         this.client = new WorkbenchApiClient(apiHost, apiPort, apiKey);
         this.projectId = projectId;
         this.scenarioId = scenarioId;
         this.testReportOutputFile = testReportOutputFile;
+        this.testJsonOutputFile = testJsonOutputFile;
     }
 
     public void run() {
@@ -38,11 +40,21 @@ public class RunTest implements Runnable {
             waitForTestToStart(test);
             pollWhileTestIsRunning(test);
 
-            log("Attempting to fetch the test report...");
+            if (testReportOutputFile != null) {
+                log("Attempting to fetch the HTML test report...");
 
-            copy(waitForTestReport(test), new FileOutputStream(testReportOutputFile));
+                copy(waitForTestReport(test, true), new FileOutputStream(testReportOutputFile));
 
-            log("Saved test report to " + testReportOutputFile);
+                log("Saved HTML test report to " + testReportOutputFile);
+            }
+
+            if (testJsonOutputFile != null) {
+                log("Attempting to fetch the JSON test report...");
+
+                copy(waitForTestReport(test, false), new FileOutputStream(testJsonOutputFile));
+
+                log("Saved JSON test report to " + testJsonOutputFile);
+            }
         } catch (Exception e) {
             log(e.getMessage());
 
@@ -78,12 +90,16 @@ public class RunTest implements Runnable {
         log("Test is finished!");
     }
 
-    private InputStream waitForTestReport(Test test) throws ApiException {
+    private InputStream waitForTestReport(Test test, boolean html) throws ApiException {
         for (int i = 0; i < 60; i++) {
             try {
                 Thread.sleep(3000);
 
-                return client.getTestReport(test);
+                if (html) {
+                    return client.getHtmlTestReport(test);
+                } else {
+                    return client.getJsonTestReport(test);
+                }
             } catch (Exception e) {
                 log("Waiting for the test report to become available...");
             }
@@ -120,10 +136,12 @@ public class RunTest implements Runnable {
             System.err.println("API host not set! Use -Dloadster.api.host=10.0.0.1");
             System.exit(1);
         } else if (args.length < 3) {
-            System.err.println("Usage: " + RunTest.class.getName() + " <projectId> <scenarioId> <testReportOutputFile>");
+            System.err.println("Usage: " + RunTest.class.getName() + " <projectId> <scenarioId> <htmlOutputFile> <jsonOutputFile>");
             System.exit(1);
+        } else if (args.length == 3) {
+            new RunTest(apiHost, apiPort, apiKey, args[0], args[1], args[2], null).run();
+        } else {
+            new RunTest(apiHost, apiPort, apiKey, args[0], args[1], args[2], args[3]).run();
         }
-
-        new RunTest(apiHost, apiPort, apiKey, args[0], args[1], args[2]).run();
     }
 }
