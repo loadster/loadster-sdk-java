@@ -71,7 +71,12 @@ public class WorkbenchApiClient {
      * Attempts to start a test for a scenario.
      */
     public Test startTest(Scenario scenario) throws ApiException, IOException {
-        return jsonApi.startTest(scenario.getProjectId(), scenario.getId());
+        Test test = jsonApi.startTest(scenario.getProjectId(), scenario.getId());
+
+        test.setProjectId(scenario.getProjectId());
+        test.setScenarioId(scenario.getId());
+
+        return test;
     }
 
     /**
