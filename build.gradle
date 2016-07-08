@@ -31,6 +31,10 @@ publishing {
             artifactId 'loadster-sdk-java'
 
             from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
         }
     }
     repositories {
@@ -50,6 +54,12 @@ jar {
 
 fatJar {
     archiveName "loadster-sdk-${version}-all.jar"
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+
+    classifier = "sources"
 }
 
 task release(dependsOn: ["jar", "fatJar"]) << {
