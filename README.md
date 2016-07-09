@@ -7,7 +7,20 @@ To learn about how to use the SDK with Loadster Workbench, see [The Loadster Wor
 
 Usage
 -----
-The SDK is available via the repository at [https://bintray.com/loadster/loadster/loadster-sdk-java/](https://bintray.com/loadster/loadster/loadster-sdk-java/). Follow the instructions there to include it in your Gradle, Maven, or SBT build.
+The SDK is available in the public repository at JCenter [https://bintray.com/jcenter/loadster/loadster-sdk-java/](https://bintray.com/jcenter/loadster/loadster-sdk-java/). Follow the instructions there to include it in your Maven, Gradle, or Ivy build.
+
+```
+<!-- Maven -->
+<dependency>
+  <groupId>com.loadsterperformance</groupId>
+  <artifactId>loadster-sdk-java</artifactId>
+  <version>1.5</version>
+  <type>pom</type>
+</dependency>
+
+// Gradle
+compile 'com.loadsterperformance:loadster-sdk-java:1.5'
+```
 
 You can also download pre-built jars from [releases](https://github.com/loadster/loadster-sdk-java/releases).
 
