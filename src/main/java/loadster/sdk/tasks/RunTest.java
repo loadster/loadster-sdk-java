@@ -16,6 +16,8 @@ import java.io.OutputStream;
  * download a test report once it is finished.
  */
 public class RunTest implements Runnable {
+    private static final int MAX_POLL_FAILS = 3;
+
     private WorkbenchApiClient client;
     private String projectId;
     private String scenarioId;
@@ -64,30 +66,60 @@ public class RunTest implements Runnable {
         System.exit(0);
     }
 
-    private void waitForTestToStart(Test test) throws ApiException, InterruptedException, IOException {
-        for (int i = 0; i < 60; i++) {
-            Thread.sleep(10000);
+    private void waitForTestToStart(Test test) {
+        int failures = 0;
 
-            TestStatus status = client.getTestStatus(test);
+        for (int i = 0; i < 60 && failures < MAX_POLL_FAILS; i++) {
+            try {
+                Thread.sleep(10000);
 
-            if (status.getStatus().equals(TestStatus.RUNNING)) {
-                log("Test is up and running!");
+                TestStatus status = client.getTestStatus(test);
 
-                break;
-            } else {
-                log("Waiting for test to start...");
+                if (status.getStatus().equals(TestStatus.RUNNING)) {
+                    log("Test is up and running!");
+
+                    break;
+                } else {
+                    log("Waiting for test to start...");
+                }
+            } catch (Exception e) {
+                log(e.getMessage());
+
+                failures++;
             }
+        }
+
+        if (failures == MAX_POLL_FAILS) {
+            log("Exiting because of too many polling failures! Loadster may be unreachable.");
         }
     }
 
-    private void pollWhileTestIsRunning(Test test) throws ApiException, InterruptedException, IOException {
-        for (TestStatus status = client.getTestStatus(test); status.getStatus().equals(TestStatus.RUNNING); status = client.getTestStatus(test)) {
-            log("Test is running (v-users=" + status.getRunningUsers() + ")");
+    private void pollWhileTestIsRunning(Test test) {
+        int failures = 0;
 
-            Thread.sleep(10000);
+        while (failures < MAX_POLL_FAILS) {
+            try {
+                TestStatus status = client.getTestStatus(test);
+
+                if (status.getStatus().equals(TestStatus.RUNNING)) {
+                    log("Test is running (v-users=" + status.getRunningUsers() + ")");
+
+                    Thread.sleep(10000);
+                } else {
+                    break;
+                }
+            } catch (Exception e) {
+                log(e.getMessage());
+
+                failures++;
+            }
         }
 
-        log("Test is finished!");
+        if (failures == MAX_POLL_FAILS) {
+            log("Exiting because of too many polling failures! Loadster may be unreachable.");
+        } else {
+            log("Test is finished!");
+        }
     }
 
     private InputStream waitForTestReport(Test test, boolean html) throws ApiException {
