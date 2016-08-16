@@ -14,12 +14,12 @@ The SDK is available in the public repository at JCenter [https://bintray.com/jc
 <dependency>
   <groupId>com.loadsterperformance</groupId>
   <artifactId>loadster-sdk-java</artifactId>
-  <version>1.5</version>
+  <version>1.6</version>
   <type>pom</type>
 </dependency>
 
 // Gradle
-compile 'com.loadsterperformance:loadster-sdk-java:1.5'
+compile 'com.loadsterperformance:loadster-sdk-java:1.6'
 ```
 
 You can also download pre-built jars from [releases](https://github.com/loadster/loadster-sdk-java/releases).
@@ -58,7 +58,7 @@ Compatibility
 
 | Loadster Workbench Version | Recommended SDK Version |
 | -------------------------- | ----------------------- |
-| 3.9.6+                     | 1.5                     |
+| 3.9.6+                     | 1.6                     |
 | 3.6.0-3.9.5                | 1.2                     |
 | 3.2.0-3.5.6                | 1.0                     |
 
